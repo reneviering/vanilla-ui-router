@@ -1,0 +1,20 @@
+{
+  "name": "router",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:dev": "jest --watch",
+    "test:cov": "jest --coverage"
+  },
+  "author": "René Viering",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-jest": "^17.0.2",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-es2015": "^6.18.0",
+    "jest": "^17.0.3",
+    "sinon": "^1.17.6"
+  }
+}
