@@ -53,13 +53,34 @@ describe('router', () => {
 		expect(spy.mock.calls.length).toBe(2);
 	});
 
-	test('the router passes the domElement to each routeHandler as first parameter', () => {
+	test('passes the domElement to each routeHandler as first parameter', () => {
 		const router = createRouter(domEntryPoint);
 		const spy = jest.fn();
 		router.addRoute('', spy);
 		simulateLoad('');
 		simulateHashChange('');
-		expect(spy.mock.calls[0][0]).toBe(domEntryPoint);
+
+		const firstRouteHandlerParameter = spy.mock.calls[0][0];
+		expect(firstRouteHandlerParameter).toBe(domEntryPoint);
+	});
+
+	test('passes the route params to each routeHandler as second parameter', () => {
+		const router = createRouter(domEntryPoint);
+		const spy = jest.fn();
+		router
+			.addRoute('', () => {})
+			.addRoute('route1/:param1/details/:param2/:param3', spy);
+		simulateLoad('');
+		simulateHashChange('route1/42/details/stringValue/true');
+
+		const expectedRouteParams = {
+			param1: 42,
+			param2: 'stringValue',
+			param3: true
+		};
+
+		const secondRouteHandlerParameter = spy.mock.calls[0][1];
+		expect(secondRouteHandlerParameter).toEqual(expectedRouteParams);
 	});
 
 	describe('a not registered hash is invoked', () => {
