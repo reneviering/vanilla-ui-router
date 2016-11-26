@@ -1,6 +1,7 @@
 import {createRouter} from '../index.js';
 let hashChangeHandlers = [];
 let loadHandlers = [];
+
 // window mock
 window.addEventListener = (eventName, handler) => {
 	if(eventName === 'hashchange') {
@@ -107,6 +108,21 @@ describe('router', () => {
 				expect(spy.mock.calls.length).toBe(0);
 				expect(otherwiseSpy.mock.calls.length).toBe(1);
 			});
+		});
+	});
+
+	describe('navigateTo(...)', () => {
+		test('navigates dynamically to a specific route', () => {
+			const router = createRouter(domEntryPoint);
+			const spy = jest.fn();
+			router
+				.addRoute('', () => {
+					router.navigateTo('home');
+				})
+				.addRoute('home', spy);
+				simulateLoad('');
+				simulateHashChange('');
+			expect(window.location.hash).toEqual('#home');
 		});
 	});
 });

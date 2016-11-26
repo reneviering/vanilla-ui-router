@@ -2,12 +2,16 @@ export const createRouter = domEntryPoint => {
 	let routes = {};
 
 	const getRouterObject = () => {
-		return { addRoute, otherwise };
+		return { addRoute, otherwise, navigateTo };
 	}
 
 	const addRoute = (hashUrl, routeHandler) => {
 		routes[hashUrl] = routeHandler;
 		return getRouterObject();
+	};
+
+	const navigateTo = hashUrl => {
+		window.location.hash = hashUrl;
 	};
 
 	const otherwise = routeHandler => {
