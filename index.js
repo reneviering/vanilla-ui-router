@@ -1,17 +1,17 @@
 export const createRouter = domEntryPoint => {
-	let routes = new Map();
+	let routes = {};
 
 	const getRouterObject = () => {
 		return { addRoute, otherwise };
 	}
 
 	const addRoute = (hashUrl, routeHandler) => {
-		routes.set(hashUrl, routeHandler);
+		routes[hashUrl] = routeHandler;
 		return getRouterObject();
 	};
 
 	const otherwise = routeHandler => {
-		routes.set('*', routeHandler);
+		routes['*'] = routeHandler;
 	};
 
 	const parseRouteParamToCorrectType = paramValue => {
@@ -36,7 +36,7 @@ export const createRouter = domEntryPoint => {
 
 	      const staticRouteTokensAreEqual = splittedRouteKey
 	        .map((routeToken, i) => {
-	          if(routeToken.startsWith(':')) return true;
+	          if(routeToken.indexOf(':', 0) !== -1) return true;
 	          return routeToken === splittedHash[i];
 	        })
 	        .reduce((countInvalid, currentValidationState) => {
@@ -46,7 +46,7 @@ export const createRouter = domEntryPoint => {
 	          return countInvalid;
 	        }, 0) === 0;
 
-	      return routeKey.startsWith(firstHashToken) &&
+	      return routeKey.indexOf(firstHashToken, 0) !== -1 &&
 	             staticRouteTokensAreEqual &&
 	             splittedHash.length === splittedRouteKey.length;
 	    })[0];
@@ -58,7 +58,7 @@ export const createRouter = domEntryPoint => {
 
 	  return splittedRouteIdentifier
 	    .map((routeIdentifierToken, index) => {
-	      if (!routeIdentifierToken.startsWith(':')) return null;
+	      if (routeIdentifierToken.indexOf(':', 0) === -1) return null;
 	        const routeParam = {};
 	        const key = routeIdentifierToken.substr(1, routeIdentifierToken.length - 1);
 	        routeParam[key] = splittedHash[index];
@@ -77,13 +77,13 @@ export const createRouter = domEntryPoint => {
 		const defaultRouteIdentifier = '*';
 		const currentHash = location.hash.slice(1);
 
-		const maybeMatchingRouteIdentifier = findMatchingRouteIdentifier(currentHash, Array.from(routes.keys()));
+		const maybeMatchingRouteIdentifier = findMatchingRouteIdentifier(currentHash, Object.keys(routes));
 	  let routeParams;
 		if (maybeMatchingRouteIdentifier) {
 			routeParams = extractRouteParams(maybeMatchingRouteIdentifier, currentHash);
 		}
 
-		const routeHandler = routes.has(maybeMatchingRouteIdentifier) ? routes.get(maybeMatchingRouteIdentifier) : routes.get(defaultRouteIdentifier);
+		const routeHandler = Object.keys(routes).indexOf(maybeMatchingRouteIdentifier) !== -1 ? routes[maybeMatchingRouteIdentifier] : routes[defaultRouteIdentifier];
 
 		if (typeof routeHandler === 'function') {
 			routeHandler(domEntryPoint, routeParams);
