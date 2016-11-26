@@ -19,7 +19,6 @@ const simulateHashChange = hash => {
 		window.location.hash = hash;
 		hashChangeHandlers.forEach(handler => handler());
 	}
-
 };
 
 const simulateLoad = hash => {
@@ -33,8 +32,19 @@ const clearHandlers = () => {
 };
 
 describe('router', () => {
-	test('invokes registered routes correctly', () => {
+	let domEntryPoint;
+
+	beforeAll(() => {
+		domEntryPoint = document.createElement('main');
+		domEntryPoint.setAttribute('id', 'app');
+		document.body.appendChild(domEntryPoint);
+	});
+
+	beforeEach(() => {
 		clearHandlers();
+	});
+
+	test('invokes registered routes correctly', () => {
 		const router = createRouter();
 		const spy = jest.fn();
 		router.addRoute('', spy);
@@ -43,9 +53,17 @@ describe('router', () => {
 		expect(spy.mock.calls.length).toBe(2);
 	});
 
+	test('the router passes the domElement to each routeHandler as first parameter', () => {
+		const router = createRouter(domEntryPoint);
+		const spy = jest.fn();
+		router.addRoute('', spy);
+		simulateLoad('');
+		simulateHashChange('');
+		expect(spy.mock.calls[0][0]).toBe(domEntryPoint);
+	});
+
 	describe('a not registered hash is invoked', () => {
 		test('no routeHandler is called', () => {
-			clearHandlers();
 			const router = createRouter();
 			const spy = jest.fn();
 			router.addRoute('registered-route', spy);
@@ -56,7 +74,6 @@ describe('router', () => {
 
 		describe('the otherwise route is registered', () => {
 			test('the otherwise handler is called', () => {
-				clearHandlers();
 				const router = createRouter();
 				const spy = jest.fn();
 				const otherwiseSpy = jest.fn();

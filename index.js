@@ -111,7 +111,7 @@
 //   return getRouterInstance();
 // };
 
-export const createRouter = () => {
+export const createRouter = domEntryPoint => {
 	let routes = new Map();
 
 	const getRouterObject = () => {
@@ -134,7 +134,7 @@ export const createRouter = () => {
 		const routeHandler = routes.has(currentHash) ? routes.get(currentHash) : routes.get(defaultRouteIdentifier);
 
 		if (typeof routeHandler === 'function') {
-			routeHandler();
+			routeHandler(domEntryPoint);
 		}
 	};
 
