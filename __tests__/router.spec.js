@@ -12,19 +12,19 @@ window.addEventListener = (eventName, handler) => {
 	}
 };
 
-let lastHash = '';
+let lastHash;
 
 const simulateHashChange = hash => {
 	if(lastHash !== hash) {
 		window.location.hash = hash;
-		hashChangeHandlers.forEach(handler => handler(hash));
+		hashChangeHandlers.forEach(handler => handler());
 	}
 
 };
 
-const simulateLoad = () => {
-	window.location.hash = '';
-	loadHandlers.forEach(handler => handler(''));
+const simulateLoad = hash => {
+	window.location.hash = hash;
+	loadHandlers.forEach(handler => handler());
 };
 
 const clearHandlers = () => {
@@ -38,9 +38,9 @@ describe('router', () => {
 		const router = createRouter();
 		const spy = jest.fn();
 		router.addRoute('', spy);
-		simulateLoad();
+		simulateLoad('');
 		simulateHashChange('');
-		expect(spy.mock.calls.length).toBe(1);
+		expect(spy.mock.calls.length).toBe(2);
 	});
 
 	describe('a not registered hash is invoked', () => {
@@ -49,7 +49,7 @@ describe('router', () => {
 			const router = createRouter();
 			const spy = jest.fn();
 			router.addRoute('registered-route', spy);
-			simulateLoad();
+			simulateLoad('');
 			simulateHashChange('not-registered-route');
 			expect(spy.mock.calls.length).toBe(0);
 		});
@@ -61,12 +61,14 @@ describe('router', () => {
 				const spy = jest.fn();
 				const otherwiseSpy = jest.fn();
 				router
-					.addRoute('registered-route', spy);
-				simulateLoad();
+					.addRoute('', () =>{})
+					.addRoute('registered-route', spy)
+					.otherwise(otherwiseSpy);
+				simulateLoad('');
 				simulateHashChange('not-registered-route');
 				expect(spy.mock.calls.length).toBe(0);
-				expect(otherwiseSpy.mock.calls.length).toBe(0);
+				expect(otherwiseSpy.mock.calls.length).toBe(1);
 			});
 		});
 	});
-})
+});
