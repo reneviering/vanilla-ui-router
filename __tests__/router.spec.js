@@ -129,55 +129,72 @@ describe('router', () => {
 		});
 	});
 
-	describe('Adding a route with templateString inside the options', () => {
-		test('templateString is rendered before calling the routeHandler', () => {
-			const router = createRouter(domEntryPoint);
-			const spy = jest.fn();
-			router.addRoute('', {
-				templateString: '<p>I am the default route</p>',
-				routeHandler: spy
+	describe('Templating', () => {
+		describe('Adding a route with templateString inside the options', () => {
+			test('templateString is rendered before calling the routeHandler', () => {
+				const router = createRouter(domEntryPoint);
+				const spy = jest.fn();
+				router.addRoute('', {
+					templateString: '<p>I am the default route</p>',
+					routeHandler: spy
+				});
+				simulateLoad('');
+				simulateHashChange('');
+				expect(domEntryPoint.innerHTML).toEqual('<p>I am the default route</p>');
+				expect(spy.mock.calls.length).toBe(2);
 			});
-			simulateLoad('');
-			simulateHashChange('');
-			expect(domEntryPoint.innerHTML).toEqual('<p>I am the default route</p>');
-			expect(spy.mock.calls.length).toBe(2);
-		});
-	});
 
-	describe('Adding a route with templateUrl inside the options', () => {
-		test('template is loaded from templateUrl and the result is rendered before calling the routeHandler', () => {
-			const router = createRouter(domEntryPoint);
-			const spy = jest.fn();
-			const expectedRenderedTemplate = '<p>Rendered from template.html</p>';
-			router.addRoute('', {
-				templateUrl: 'path/to/template.html',
-				routeHandler: spy
+			describe('no routeHandler is defined', () => {
+				test('no error occurs', () => {
+					const init = () => {
+						const router = createRouter(domEntryPoint);
+						router.addRoute('', {
+							templateString: '<p>I am the default route</p>',
+						});
+						simulateLoad('');
+						simulateHashChange('');
+					};
+					expect(init).not.toThrow();
+				});
 			});
-			simulateLoad('');
-			simulateHashChange('');
-			expect(domEntryPoint.innerHTML).toEqual('<p>Rendered from template.html</p>');
-			expect(spy.mock.calls.length).toBe(2);
 		});
-	});
 
-	describe('Adding a route with templateId inside the options', () => {
-		test('template which defined id is rendered before calling the routeHandler', () => {
-			const templateScript = document.createElement('script');
-			templateScript.setAttribute('id', 'template42');
-			templateScript.setAttribute('type', 'text/template');
-			templateScript.innerHTML = '<p>Rendered from template.html</p>'
-			document.body.appendChild(templateScript);
-
-			const router = createRouter(domEntryPoint);
-			const spy = jest.fn();
-			router.addRoute('', {
-				templateId: 'template42',
-				routeHandler: spy
+		describe('Adding a route with templateUrl inside the options', () => {
+			test('template is loaded from templateUrl and the result is rendered before calling the routeHandler', () => {
+				const router = createRouter(domEntryPoint);
+				const spy = jest.fn();
+				const expectedRenderedTemplate = '<p>Rendered from template.html</p>';
+				router.addRoute('', {
+					templateUrl: 'path/to/template.html',
+					routeHandler: spy
+				});
+				simulateLoad('');
+				simulateHashChange('');
+				expect(domEntryPoint.innerHTML).toEqual('<p>Rendered from template.html</p>');
+				expect(spy.mock.calls.length).toBe(2);
 			});
-			simulateLoad('');
-			simulateHashChange('');
-			expect(domEntryPoint.innerHTML).toEqual('<p>Rendered from template.html</p>');
-			expect(spy.mock.calls.length).toBe(2);
 		});
+
+		describe('Adding a route with templateId inside the options', () => {
+			test('template which defined id is rendered before calling the routeHandler', () => {
+				const templateScript = document.createElement('script');
+				templateScript.setAttribute('id', 'template42');
+				templateScript.setAttribute('type', 'text/template');
+				templateScript.innerHTML = '<p>Rendered from template.html</p>'
+				document.body.appendChild(templateScript);
+
+				const router = createRouter(domEntryPoint);
+				const spy = jest.fn();
+				router.addRoute('', {
+					templateId: 'template42',
+					routeHandler: spy
+				});
+				simulateLoad('');
+				simulateHashChange('');
+				expect(domEntryPoint.innerHTML).toEqual('<p>Rendered from template.html</p>');
+				expect(spy.mock.calls.length).toBe(2);
+			});
+		});
+
 	});
-});
+	});
