@@ -3,6 +3,7 @@ import {
 	extractRouteParams,
 	findMatchingRouteIdentifier
 } from './core/routeParams';
+import { renderTemplates } from './core/templates';
 
 export const createRouter = domEntryPoint => {
 	let routes = {};
@@ -36,8 +37,17 @@ export const createRouter = domEntryPoint => {
 
 		const routeHandler = Object.keys(routes).indexOf(maybeMatchingRouteIdentifier) !== -1 ? routes[maybeMatchingRouteIdentifier] : routes[defaultRouteIdentifier];
 
+		if (!routeHandler) return;
+
 		if (typeof routeHandler === 'function') {
 			routeHandler(domEntryPoint, routeParams);
+		} else {
+
+			renderTemplates(routeHandler, domEntryPoint);
+
+			if(typeof routeHandler.routeHandler === 'function') {
+				routeHandler.routeHandler(domEntryPoint, routeParams);
+			}
 		}
 	};
 

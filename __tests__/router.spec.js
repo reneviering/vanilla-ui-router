@@ -125,4 +125,19 @@ describe('router', () => {
 			expect(window.location.hash).toEqual('#home');
 		});
 	});
+
+	describe('Adding a route with templateString inside the options', () => {
+		test('templateString is rendered before calling the routeHandler', () => {
+			const router = createRouter(domEntryPoint);
+			const spy = jest.fn();
+			router.addRoute('', {
+				templateString: '<p>I am the default route</p>',
+				routeHandler: spy
+			});
+			simulateLoad('');
+			simulateHashChange('');
+			expect(domEntryPoint.innerHTML).toEqual('<p>I am the default route</p>');
+			expect(spy.mock.calls.length).toBe(2);
+		});
+	});
 });
