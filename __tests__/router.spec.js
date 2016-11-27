@@ -159,4 +159,25 @@ describe('router', () => {
 			expect(spy.mock.calls.length).toBe(2);
 		});
 	});
+
+	describe('Adding a route with templateId inside the options', () => {
+		test('template which defined id is rendered before calling the routeHandler', () => {
+			const templateScript = document.createElement('script');
+			templateScript.setAttribute('id', 'template42');
+			templateScript.setAttribute('type', 'text/template');
+			templateScript.innerHTML = '<p>Rendered from template.html</p>'
+			document.body.appendChild(templateScript);
+
+			const router = createRouter(domEntryPoint);
+			const spy = jest.fn();
+			router.addRoute('', {
+				templateId: 'template42',
+				routeHandler: spy
+			});
+			simulateLoad('');
+			simulateHashChange('');
+			expect(domEntryPoint.innerHTML).toEqual('<p>Rendered from template.html</p>');
+			expect(spy.mock.calls.length).toBe(2);
+		});
+	});
 });

@@ -12,4 +12,9 @@ export const renderTemplates = (routeConfiguration, domEntryPoint) => {
 			domEntryPoint.innerHTML = templateString;
 		});
 	}
+
+	if (routeConfiguration.templateId) {
+		const templateScript = document.getElementById(routeConfiguration.templateId);
+		domEntryPoint.innerHTML = templateScript.text;
+	}
 };
