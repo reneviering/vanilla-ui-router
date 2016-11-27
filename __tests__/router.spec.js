@@ -2,6 +2,8 @@ import {createRouter} from '../index.js';
 let hashChangeHandlers = [];
 let loadHandlers = [];
 
+jest.mock('../core/dataProvider.js');
+
 // window mock
 window.addEventListener = (eventName, handler) => {
 	if(eventName === 'hashchange') {
@@ -43,6 +45,7 @@ describe('router', () => {
 
 	beforeEach(() => {
 		clearHandlers();
+		domEntryPoint.innerHTML = '';
 	});
 
 	test('invokes registered routes correctly', () => {
@@ -137,6 +140,22 @@ describe('router', () => {
 			simulateLoad('');
 			simulateHashChange('');
 			expect(domEntryPoint.innerHTML).toEqual('<p>I am the default route</p>');
+			expect(spy.mock.calls.length).toBe(2);
+		});
+	});
+
+	describe('Adding a route with templateUrl inside the options', () => {
+		test('template is loaded from templateUrl and the result is rendered before calling the routeHandler', () => {
+			const router = createRouter(domEntryPoint);
+			const spy = jest.fn();
+			const expectedRenderedTemplate = '<p>Rendered from template.html</p>';
+			router.addRoute('', {
+				templateUrl: 'path/to/template.html',
+				routeHandler: spy
+			});
+			simulateLoad('');
+			simulateHashChange('');
+			expect(domEntryPoint.innerHTML).toEqual('<p>Rendered from template.html</p>');
 			expect(spy.mock.calls.length).toBe(2);
 		});
 	});

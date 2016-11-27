@@ -30,7 +30,7 @@ export const createRouter = domEntryPoint => {
 		const currentHash = location.hash.slice(1);
 
 		const maybeMatchingRouteIdentifier = findMatchingRouteIdentifier(currentHash, Object.keys(routes));
-	  let routeParams;
+	  let routeParams = {};
 		if (maybeMatchingRouteIdentifier) {
 			routeParams = extractRouteParams(maybeMatchingRouteIdentifier, currentHash);
 		}

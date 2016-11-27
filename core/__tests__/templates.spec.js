@@ -16,4 +16,12 @@ describe('template rendering', () => {
 		renderTemplates({}, d);
 		expect(d.innerHTML).toEqual('');
 	});
+
+	test('nothing is rendered if no routeConfiguration is defined', () => {
+		const d = {
+			innerHTML: ''
+		};
+		renderTemplates(null, d);
+		expect(d.innerHTML).toEqual('');
+	});
 });
