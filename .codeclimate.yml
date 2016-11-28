@@ -16,4 +16,4 @@ exclude_paths:
 - __tests__/
 - core/__mocks__/
 - core/__tests__/
-_ dist
+- dist/
