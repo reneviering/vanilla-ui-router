@@ -10,7 +10,7 @@
     "test:cov": "jest --coverage",
     "build": "rollup -c",
     "build:prod": "rollup -c rollup.prod.config.js",
-		"coveralls": "cat ./coverage/lcov.info | coveralls"
+		"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
   },
   "author": "René Viering",
   "license": "MIT",
