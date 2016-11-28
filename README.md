@@ -46,7 +46,7 @@ router
 	})
 	
 	.addRoute('home', (domEntryPoint) => {
-		domEntryPoint.textContent = 'I am the home route.');
+		domEntryPoint.textContent = 'I am the home route.';
 	})
 	
 	.addRoute('about/:aboutId/:editable', (domEntryPoint, routeParams) => {
@@ -60,7 +60,7 @@ router
 	})
 	
 	/* 
-		If routes get more complex, maybe you need to render a template Url, 
+		If routes get more complex, maybe you need to render a template URL, 
 		use a configuration object as second parameter, instead of the function
 	*/
 	.addRoute('route-with-template-url', {
@@ -92,7 +92,7 @@ router
 	})
 	
 	.otherwise(() => {
-		// If no route configuration matches, 
+		// If no route configuration matches, the otherwise route is invoked.
 		console.log('I am the otherwise route');
 	});
 
