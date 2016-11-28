@@ -1,8 +1,11 @@
 {
-  "name": "router",
+  "name": "vanilla-ui-router",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Simple vanilla JavaScript router",
+  "main": "dist/vanilla-ui-router.min.js",
+  "files": [
+    "dist"
+  ],
   "private": true,
   "scripts": {
     "test": "jest --coverage",

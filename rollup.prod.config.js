@@ -5,9 +5,9 @@ import commonjs from 'rollup-plugin-commonjs';
 
 export default {
 	entry: 'index.js',
-	dest: 'dist/router.min.js',
+	dest: 'dist/vanilla-ui-router.min.js',
 	format: 'umd',
-	moduleName: 'router',
+	moduleName: 'vanillaUIRouter',
 	plugins: [
 		resolve({
 			jsnext: true,

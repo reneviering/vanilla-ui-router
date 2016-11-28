@@ -1,7 +1,7 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
-	(factory((global.router = global.router || {})));
+	(factory((global.vanillaUIRouter = global.vanillaUIRouter || {})));
 }(this, (function (exports) { 'use strict';
 
 var parseRouteParamToCorrectType = function parseRouteParamToCorrectType(paramValue) {
@@ -21,7 +21,9 @@ var extractRouteParams = function extractRouteParams(routeIdentifier, currentHas
 	var splittedRouteIdentifier = routeIdentifier.split('/');
 
 	return splittedRouteIdentifier.map(function (routeIdentifierToken, index) {
-		if (routeIdentifierToken.indexOf(':', 0) === -1) return null;
+		if (routeIdentifierToken.indexOf(':', 0) === -1) {
+			return null;
+		}
 		var routeParam = {};
 		var key = routeIdentifierToken.substr(1, routeIdentifierToken.length - 1);
 		routeParam[key] = splittedHash[index];
@@ -42,9 +44,10 @@ var findMatchingRouteIdentifier = function findMatchingRouteIdentifier(currentHa
 
 	return routeKeys.filter(function (routeKey) {
 		var splittedRouteKey = routeKey.split('/');
-
 		var staticRouteTokensAreEqual = splittedRouteKey.map(function (routeToken, i) {
-			if (routeToken.indexOf(':', 0) !== -1) return true;
+			if (routeToken.indexOf(':', 0) !== -1) {
+				return true;
+			}
 			return routeToken === splittedHash[i];
 		}).reduce(function (countInvalid, currentValidationState) {
 			if (currentValidationState === false) {
@@ -69,7 +72,9 @@ var loadTemplate = function loadTemplate(templateUrl, successCallback) {
 };
 
 var renderTemplates = function renderTemplates(routeConfiguration, domEntryPoint) {
-	if (!routeConfiguration) return;
+	if (!routeConfiguration) {
+		return;
+	}
 
 	if (routeConfiguration.templateString) {
 		domEntryPoint.innerHTML = routeConfiguration.templateString;
@@ -90,21 +95,17 @@ var renderTemplates = function renderTemplates(routeConfiguration, domEntryPoint
 var createRouter = function createRouter(domEntryPoint) {
 	var routes = {};
 
-	var getRouterObject = function getRouterObject() {
-		return { addRoute: addRoute, otherwise: otherwise, navigateTo: navigateTo };
-	};
-
-	var addRoute = function addRoute(hashUrl, routeHandler) {
-		routes[hashUrl] = routeHandler;
-		return getRouterObject();
-	};
-
 	var navigateTo = function navigateTo(hashUrl) {
 		window.location.hash = hashUrl;
 	};
 
 	var otherwise = function otherwise(routeHandler) {
 		routes['*'] = routeHandler;
+	};
+
+	var addRoute = function addRoute(hashUrl, routeHandler) {
+		routes[hashUrl] = routeHandler;
+		return { addRoute: addRoute, otherwise: otherwise, navigateTo: navigateTo };
 	};
 
 	var handleRouting = function handleRouting() {
@@ -117,9 +118,11 @@ var createRouter = function createRouter(domEntryPoint) {
 			routeParams = extractRouteParams(maybeMatchingRouteIdentifier, currentHash);
 		}
 
-		var routeHandler = Object.keys(routes).indexOf(maybeMatchingRouteIdentifier) !== -1 ? routes[maybeMatchingRouteIdentifier] : routes[defaultRouteIdentifier];
+		var routeHandler = Object.keys(routes).indexOf(maybeMatchingRouteIdentifier) > -1 ? routes[maybeMatchingRouteIdentifier] : routes[defaultRouteIdentifier];
 
-		if (!routeHandler) return;
+		if (!routeHandler) {
+			return;
+		}
 
 		if (typeof routeHandler === 'function') {
 			routeHandler(domEntryPoint, routeParams);
@@ -140,7 +143,7 @@ var createRouter = function createRouter(domEntryPoint) {
 		window.addEventListener('load', handleRouting);
 	}
 
-	return getRouterObject();
+	return { addRoute: addRoute, otherwise: otherwise, navigateTo: navigateTo };
 };
 
 exports.createRouter = createRouter;
@@ -148,4 +151,4 @@ exports.createRouter = createRouter;
 Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
-//# sourceMappingURL=router.js.map
+//# sourceMappingURL=vanilla-ui-router.js.map
