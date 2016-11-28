@@ -85,7 +85,7 @@ router
 		You can also define a templateId, i.e. if you have a template-script inside
 		your markup like:
 
-		<script type="text/template" id="tempalte42">
+		<script type="text/template" id="template42">
 			<p>
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor, tenetur?
 			</p>
