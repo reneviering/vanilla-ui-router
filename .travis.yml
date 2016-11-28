@@ -5,3 +5,5 @@ os:
 node_js:
   - v7
   - v6
+after_success:
+  - npm run coveralls
