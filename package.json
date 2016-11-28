@@ -1,13 +1,9 @@
 {
   "name": "vanilla-ui-router",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple vanilla JavaScript router",
   "homepage": "https://github.com/micromata/vanilla-ui-router",
-  "author": {
-    "name": "René Viering",
-    "email": "r.viering@micromata.de",
-    "url": "http://micromata.de"
-  },
+  "author": "René Viering",
   "repository": "micromata/vanilla-ui-router",
   "main": "index.js",
   "files": [
@@ -25,7 +21,6 @@
     "build:prod": "rollup -c rollup.prod.config.js",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
   },
-  "author": "René Viering",
   "license": "MIT",
   "devDependencies": {
     "babel-jest": "^17.0.2",
