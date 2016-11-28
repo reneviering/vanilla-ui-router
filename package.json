@@ -9,7 +9,7 @@
     "url": "http://micromata.de"
   },
   "repository": "micromata/vanilla-ui-router",
-  "main": "dist/vanilla-ui-router.min.js",
+  "main": "index.js",
   "files": [
     "dist"
   ],
