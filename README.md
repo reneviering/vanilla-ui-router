@@ -3,10 +3,11 @@
 [![Coverage Status](https://coveralls.io/repos/github/micromata/vanilla-ui-router/badge.svg?branch=master)](https://coveralls.io/github/micromata/vanilla-ui-router?branch=master)
 [![Code Climate](https://codeclimate.com/github/micromata/vanilla-ui-router/badges/gpa.svg)](https://codeclimate.com/github/micromata/vanilla-ui-router)
 [![devDependency Status](https://david-dm.org/micromata/vanilla-ui-router/dev-status.svg?theme=shields.io)](https://david-dm.org/micromata/vanilla-ui-router#info=devDependencies)
+[![Unicorn](https://img.shields.io/badge/unicorn-approved-ff69b4.svg?style=flat)](https://www.youtube.com/watch?v=qRC4Vk6kisY) 
 
 # Vanilla UI router
 
-Simple vanilla JavaScript router to be used inside a Single Page App to add routing capabilities to get a rough structure. The router comes with zero dependencies and can be used with any view library. It's based on the hashchange-Event from the window-object.
+Simple vanilla JavaScript router to be used inside a Single Page App to add routing capabilities. The router comes with zero dependencies and can be used with any other libraries. It's based on the hashchange-Event from the window-object.
 
 ## Usage
 Let's assume your initial markup has the following structure: 
@@ -45,7 +46,7 @@ router
 	})
 	
 	.addRoute('home', (domEntryPoint) => {
-		domEntryPoint.textContent = 'I am the home route.');
+		domEntryPoint.textContent = 'I am the home route.';
 	})
 	
 	.addRoute('about/:aboutId/:editable', (domEntryPoint, routeParams) => {
@@ -59,7 +60,7 @@ router
 	})
 	
 	/* 
-		If routes get more complex, maybe you need to render a template Url, 
+		If routes get more complex, maybe you need to render a template URL, 
 		use a configuration object as second parameter, instead of the function
 	*/
 	.addRoute('route-with-template-url', {
@@ -91,7 +92,7 @@ router
 	})
 	
 	.otherwise(() => {
-		// If no route configuration matches, 
+		// If no route configuration matches, the otherwise route is invoked.
 		console.log('I am the otherwise route');
 	});
 
