@@ -1,4 +1,4 @@
-import { renderTemplates } from '../templates';
+import {renderTemplates} from '../templates';
 
 describe('template rendering', () => {
 	test('renders templateString, if it is defined inside the routeConfiguration', () => {

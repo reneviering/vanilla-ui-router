@@ -10,7 +10,7 @@
     "test:cov": "jest --coverage",
     "build": "rollup -c",
     "build:prod": "rollup -c rollup.prod.config.js",
-		"coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
   },
   "author": "René Viering",
   "license": "MIT",
@@ -20,6 +20,8 @@
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-es2015-rollup": "^1.2.0",
     "coveralls": "^2.11.15",
+    "eslint": "^3.11.1",
+    "eslint-config-xo": "^0.17.0",
     "jest": "^17.0.3",
     "rollup": "^0.36.4",
     "rollup-plugin-babel": "^2.6.1",

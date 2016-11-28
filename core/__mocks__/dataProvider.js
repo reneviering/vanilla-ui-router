@@ -3,5 +3,7 @@ export const loadTemplate = (templateUrl, successCallback) => {
 		case 'path/to/template.html':
 			successCallback('<p>Rendered from template.html</p>');
 			break;
+		default:
+			return;
 	}
 };

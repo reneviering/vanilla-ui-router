@@ -1,4 +1,4 @@
-import { loadTemplate } from '../dataProvider';
+import {loadTemplate} from '../dataProvider';
 
 // Add a simple XMLHttpRequest mock which already succeeds to test functionality of the dataProvider
 

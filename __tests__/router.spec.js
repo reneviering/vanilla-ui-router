@@ -6,11 +6,11 @@ jest.mock('../core/dataProvider.js');
 
 // window mock
 window.addEventListener = (eventName, handler) => {
-	if(eventName === 'hashchange') {
+	if (eventName === 'hashchange') {
 		hashChangeHandlers.push(handler);
 	}
 
-	if(eventName === 'load') {
+	if (eventName === 'load') {
 		loadHandlers.push(handler);
 	}
 };
@@ -18,7 +18,7 @@ window.addEventListener = (eventName, handler) => {
 let lastHash;
 
 const simulateHashChange = hash => {
-	if(lastHash !== hash) {
+	if (lastHash !== hash) {
 		window.location.hash = hash;
 		hashChangeHandlers.forEach(handler => handler());
 	}
@@ -103,7 +103,7 @@ describe('router', () => {
 				const spy = jest.fn();
 				const otherwiseSpy = jest.fn();
 				router
-					.addRoute('', () =>{})
+					.addRoute('', () => {})
 					.addRoute('registered-route', spy)
 					.otherwise(otherwiseSpy);
 				simulateLoad('');
@@ -119,12 +119,12 @@ describe('router', () => {
 			const router = createRouter(domEntryPoint);
 			const spy = jest.fn();
 			router
-				.addRoute('', () => {
+				.addRoute('', () => {
 					router.navigateTo('home');
 				})
 				.addRoute('home', spy);
-				simulateLoad('');
-				simulateHashChange('');
+			simulateLoad('');
+			simulateHashChange('');
 			expect(window.location.hash).toEqual('#home');
 		});
 	});
@@ -149,7 +149,7 @@ describe('router', () => {
 					const init = () => {
 						const router = createRouter(domEntryPoint);
 						router.addRoute('', {
-							templateString: '<p>I am the default route</p>',
+							templateString: '<p>I am the default route</p>'
 						});
 						simulateLoad('');
 						simulateHashChange('');
@@ -170,7 +170,7 @@ describe('router', () => {
 				});
 				simulateLoad('');
 				simulateHashChange('');
-				expect(domEntryPoint.innerHTML).toEqual('<p>Rendered from template.html</p>');
+				expect(domEntryPoint.innerHTML).toEqual(expectedRenderedTemplate);
 				expect(spy.mock.calls.length).toBe(2);
 			});
 		});
@@ -180,7 +180,7 @@ describe('router', () => {
 				const templateScript = document.createElement('script');
 				templateScript.setAttribute('id', 'template42');
 				templateScript.setAttribute('type', 'text/template');
-				templateScript.innerHTML = '<p>Rendered from template.html</p>'
+				templateScript.innerHTML = '<p>Rendered from template.html</p>';
 				document.body.appendChild(templateScript);
 
 				const router = createRouter(domEntryPoint);
@@ -197,4 +197,4 @@ describe('router', () => {
 		});
 
 	});
-	});
+});

@@ -1,7 +1,9 @@
-import { loadTemplate } from './dataProvider';
+import {loadTemplate} from './dataProvider';
 
 export const renderTemplates = (routeConfiguration, domEntryPoint) => {
-	if (!routeConfiguration) return;
+	if (!routeConfiguration) {
+		return;
+	}
 
 	if (routeConfiguration.templateString) {
 		domEntryPoint.innerHTML = routeConfiguration.templateString;
