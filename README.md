@@ -7,7 +7,7 @@
 
 # Vanilla UI router
 
-Simple vanilla JavaScript router to be used inside a Single Page App to add routing capabilities to get a rough structure. The router comes with zero dependencies and can be used with any view library. It's based on the hashchange-Event from the window-object.
+Simple vanilla JavaScript router to be used inside a Single Page App to add routing capabilities. The router comes with zero dependencies and can be used with any other libraries. It's based on the hashchange-Event from the window-object.
 
 ## Usage
 Let's assume your initial markup has the following structure: 
