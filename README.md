@@ -11,6 +11,12 @@
 
 The router comes with zero dependencies and can be used with any other libraries. It's based on the [hashchange-Event](https://developer.mozilla.org/docs/Web/API/WindowEventHandlers/onhashchange) from the window-object.
 
+## Installation
+
+```
+$ npm install --save vanilla-ui-router
+```
+
 ## Usage
 Let's assume your initial markup has the following structure:
 
