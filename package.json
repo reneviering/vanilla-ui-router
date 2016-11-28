@@ -11,9 +11,10 @@
   "repository": "micromata/vanilla-ui-router",
   "main": "index.js",
   "files": [
-    "dist"
+    "dist",
+    "core",
+    "index.js"
   ],
-  "private": true,
   "scripts": {
     "test": "jest --coverage",
     "test:dev": "jest --watch",
