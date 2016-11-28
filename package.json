@@ -12,7 +12,9 @@
   "main": "index.js",
   "files": [
     "dist",
-    "core",
+    "core/dataProvider.js",
+    "core/routeParams.js",
+    "core/templates.js",
     "index.js"
   ],
   "scripts": {
