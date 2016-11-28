@@ -3,6 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/micromata/vanilla-ui-router/badge.svg?branch=master)](https://coveralls.io/github/micromata/vanilla-ui-router?branch=master)
 [![Code Climate](https://codeclimate.com/github/micromata/vanilla-ui-router/badges/gpa.svg)](https://codeclimate.com/github/micromata/vanilla-ui-router)
 [![devDependency Status](https://david-dm.org/micromata/vanilla-ui-router/dev-status.svg?theme=shields.io)](https://david-dm.org/micromata/vanilla-ui-router#info=devDependencies)
+[![Unicorn](https://img.shields.io/badge/unicorn-approved-ff69b4.svg?style=flat)](https://www.youtube.com/watch?v=qRC4Vk6kisY) 
 
 # Vanilla UI router
 
