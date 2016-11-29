@@ -5,9 +5,9 @@
 [![devDependency Status](https://david-dm.org/micromata/vanilla-ui-router/dev-status.svg?theme=shields.io)](https://david-dm.org/micromata/vanilla-ui-router#info=devDependencies)
 [![Unicorn](https://img.shields.io/badge/unicorn-approved-ff69b4.svg?style=flat)](https://www.youtube.com/watch?v=qRC4Vk6kisY)
 
-# Vanilla UI router
+# Vanilla UI Router
 
-> Simple vanilla JavaScript router to be used inside a Single Page App to add routing capabilities.
+> Simple vanilla JavaScript router to be used inside a single page app to add routing capabilities.
 
 The router comes with zero dependencies and can be used with any other libraries. It's based on the [hashchange-Event](https://developer.mozilla.org/docs/Web/API/WindowEventHandlers/onhashchange).
 
