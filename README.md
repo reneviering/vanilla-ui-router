@@ -9,13 +9,14 @@
 
 > Simple vanilla JavaScript router to be used inside a Single Page App to add routing capabilities.
 
-The router comes with zero dependencies and can be used with any other libraries. It's based on the [hashchange-Event](https://developer.mozilla.org/docs/Web/API/WindowEventHandlers/onhashchange) from the window-object.
+The router comes with zero dependencies and can be used with any other libraries. It's based on the [hashchange-Event](https://developer.mozilla.org/docs/Web/API/WindowEventHandlers/onhashchange).
 
 ## Installation
 
 ```
 $ npm install --save vanilla-ui-router
 ```
+*As UMD module this runs everywhere (ES6 modules, CommonJS, AMD and with good ol’ globals).*
 
 ## Usage
 Let's assume your initial markup has the following structure:
