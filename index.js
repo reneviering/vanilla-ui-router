@@ -6,6 +6,7 @@ import {renderTemplates} from './core/templates';
 
 export const createRouter = domEntryPoint => {
 	let routes = {};
+	const lastDomEntryPoint = domEntryPoint.cloneNode(true);
 
 	const navigateTo = hashUrl => {
 		window.location.hash = hashUrl;
@@ -18,6 +19,17 @@ export const createRouter = domEntryPoint => {
 	const addRoute = (hashUrl, routeHandler) => {
 		routes[hashUrl] = routeHandler;
 		return {addRoute, otherwise, navigateTo};
+	};
+
+	const initializeDomElement = () => {
+		if (!domEntryPoint.parentElement) {
+			return;
+		}
+
+		const domClone = lastDomEntryPoint.cloneNode(true);
+		domEntryPoint.parentElement.insertBefore(domClone, domEntryPoint);
+		domEntryPoint.remove();
+		domEntryPoint = domClone;
 	};
 
 	const handleRouting = () => {
@@ -35,6 +47,8 @@ export const createRouter = domEntryPoint => {
 		if (!routeHandler) {
 			return;
 		}
+
+		initializeDomElement();
 
 		if (typeof routeHandler === 'function') {
 			routeHandler(domEntryPoint, routeParams);

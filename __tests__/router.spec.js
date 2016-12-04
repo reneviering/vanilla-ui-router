@@ -49,7 +49,7 @@ describe('router', () => {
 	});
 
 	test('invokes registered routes correctly', () => {
-		const router = createRouter();
+		const router = createRouter(domEntryPoint);
 		const spy = jest.fn();
 		router.addRoute('', spy);
 		simulateLoad('');
@@ -59,6 +59,7 @@ describe('router', () => {
 
 	test('passes the domElement to each routeHandler as first parameter', () => {
 		const router = createRouter(domEntryPoint);
+		
 		const spy = jest.fn();
 		router.addRoute('', spy);
 		simulateLoad('');
@@ -89,7 +90,7 @@ describe('router', () => {
 
 	describe('a not registered hash is invoked', () => {
 		test('no routeHandler is called', () => {
-			const router = createRouter();
+			const router = createRouter(domEntryPoint);
 			const spy = jest.fn();
 			router.addRoute('registered-route', spy);
 			simulateLoad('');
@@ -99,7 +100,7 @@ describe('router', () => {
 
 		describe('the otherwise route is registered', () => {
 			test('the otherwise handler is called', () => {
-				const router = createRouter();
+				const router = createRouter(domEntryPoint);
 				const spy = jest.fn();
 				const otherwiseSpy = jest.fn();
 				router
