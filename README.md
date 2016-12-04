@@ -101,6 +101,13 @@ router
 	.addRoute('route-with-template-id/:id', {
 		templateId: 'template42'
 	})
+	
+	.addRoute('route-with-dispose', {
+		routeHandler: () => {},
+		dispose: () => {
+			// Is called before navigating to another route to do some cleanup if needed.
+		}
+	})
 
 	.otherwise(() => {
 		// If no route configuration matches, the otherwise route is invoked.
