@@ -7,6 +7,7 @@ import {renderTemplates} from './core/templates';
 export const createRouter = domEntryPoint => {
 	let routes = {};
 	const lastDomEntryPoint = domEntryPoint.cloneNode(true);
+	let lastRouteHandler = null;
 
 	const navigateTo = hashUrl => {
 		window.location.hash = hashUrl;
@@ -32,6 +33,12 @@ export const createRouter = domEntryPoint => {
 		domEntryPoint = domClone;
 	};
 
+	const disposeLastRoute = () => {
+		if (!lastRouteHandler) return;
+		if (typeof lastRouteHandler.dispose === 'undefined') return;
+		lastRouteHandler.dispose(domEntryPoint);
+	};
+
 	const handleRouting = () => {
 		const defaultRouteIdentifier = '*';
 		const currentHash = location.hash.slice(1);
@@ -47,6 +54,11 @@ export const createRouter = domEntryPoint => {
 		if (!routeHandler) {
 			return;
 		}
+
+		disposeLastRoute(routeHandler);
+
+		// Memory last routeHandler
+		lastRouteHandler = routeHandler;
 
 		initializeDomElement();
 

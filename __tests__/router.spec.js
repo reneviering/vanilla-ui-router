@@ -59,7 +59,7 @@ describe('router', () => {
 
 	test('passes the domElement to each routeHandler as first parameter', () => {
 		const router = createRouter(domEntryPoint);
-		
+
 		const spy = jest.fn();
 		router.addRoute('', spy);
 		simulateLoad('');
@@ -197,5 +197,23 @@ describe('router', () => {
 			});
 		});
 
+	});
+
+	describe('Disposing routes', () => {
+		describe('Navigate to a new route', () => {
+			test('the last route is disposed if a dispose function is defined inside route configuration', () => {
+				const router = createRouter(domEntryPoint);
+				const spy = jest.fn();
+				router
+					.addRoute('', {
+						routeHandler: () => {},
+						dispose: spy
+					})
+					.addRoute('home', () => {});
+				simulateHashChange('');
+				simulateHashChange('home');
+				expect(spy.mock.calls.length).toEqual(1);
+			});
+		});
 	});
 });
