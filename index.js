@@ -66,11 +66,12 @@ export const createRouter = domEntryPoint => {
 			routeHandler(domEntryPoint, routeParams);
 		} else {
 
-			renderTemplates(routeHandler, domEntryPoint);
+			renderTemplates(routeHandler, domEntryPoint, () => {
+				if (typeof routeHandler.routeHandler === 'function') {
+					routeHandler.routeHandler(domEntryPoint, routeParams);
+				}
+			});
 
-			if (typeof routeHandler.routeHandler === 'function') {
-				routeHandler.routeHandler(domEntryPoint, routeParams);
-			}
 		}
 	};
 
