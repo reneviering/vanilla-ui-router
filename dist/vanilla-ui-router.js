@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global.vanillaUIRouter = factory());
-}(this, (function () { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+	typeof define === 'function' && define.amd ? define(['exports'], factory) :
+	(factory((global.vanillaUIRouter = global.vanillaUIRouter || {})));
+}(this, (function (exports) { 'use strict';
 
 var parseRouteParamToCorrectType = function parseRouteParamToCorrectType(paramValue) {
 	if (!isNaN(paramValue)) {
@@ -71,29 +71,34 @@ var loadTemplate = function loadTemplate(templateUrl, successCallback) {
 	xhr.send();
 };
 
-var renderTemplates = function renderTemplates(routeConfiguration, domEntryPoint) {
+var renderTemplates = function renderTemplates(routeConfiguration, domEntryPoint, successCallback) {
 	if (!routeConfiguration) {
 		return;
 	}
 
 	if (routeConfiguration.templateString) {
 		domEntryPoint.innerHTML = routeConfiguration.templateString;
+		successCallback();
 	}
 
 	if (routeConfiguration.templateUrl) {
 		loadTemplate(routeConfiguration.templateUrl, function (templateString) {
 			domEntryPoint.innerHTML = templateString;
+			successCallback();
 		});
 	}
 
 	if (routeConfiguration.templateId) {
 		var templateScript = document.getElementById(routeConfiguration.templateId);
 		domEntryPoint.innerHTML = templateScript.text;
+		successCallback();
 	}
 };
 
 var createRouter = function createRouter(domEntryPoint) {
 	var routes = {};
+	var lastDomEntryPoint = domEntryPoint.cloneNode(true);
+	var lastRouteHandler = null;
 
 	var navigateTo = function navigateTo(hashUrl) {
 		window.location.hash = hashUrl;
@@ -106,6 +111,23 @@ var createRouter = function createRouter(domEntryPoint) {
 	var addRoute = function addRoute(hashUrl, routeHandler) {
 		routes[hashUrl] = routeHandler;
 		return { addRoute: addRoute, otherwise: otherwise, navigateTo: navigateTo };
+	};
+
+	var initializeDomElement = function initializeDomElement() {
+		if (!domEntryPoint.parentElement) {
+			return;
+		}
+
+		var domClone = lastDomEntryPoint.cloneNode(true);
+		domEntryPoint.parentElement.insertBefore(domClone, domEntryPoint);
+		domEntryPoint.remove();
+		domEntryPoint = domClone;
+	};
+
+	var disposeLastRoute = function disposeLastRoute() {
+		if (!lastRouteHandler) return;
+		if (typeof lastRouteHandler.dispose === 'undefined') return;
+		lastRouteHandler.dispose(domEntryPoint);
 	};
 
 	var handleRouting = function handleRouting() {
@@ -124,15 +146,22 @@ var createRouter = function createRouter(domEntryPoint) {
 			return;
 		}
 
+		disposeLastRoute(routeHandler);
+
+		// Memory last routeHandler
+		lastRouteHandler = routeHandler;
+
+		initializeDomElement();
+
 		if (typeof routeHandler === 'function') {
 			routeHandler(domEntryPoint, routeParams);
 		} else {
 
-			renderTemplates(routeHandler, domEntryPoint);
-
-			if (typeof routeHandler.routeHandler === 'function') {
-				routeHandler.routeHandler(domEntryPoint, routeParams);
-			}
+			renderTemplates(routeHandler, domEntryPoint, function () {
+				if (typeof routeHandler.routeHandler === 'function') {
+					routeHandler.routeHandler(domEntryPoint, routeParams);
+				}
+			});
 		}
 	};
 
@@ -146,7 +175,9 @@ var createRouter = function createRouter(domEntryPoint) {
 	return { addRoute: addRoute, otherwise: otherwise, navigateTo: navigateTo };
 };
 
-return createRouter;
+exports.createRouter = createRouter;
+
+Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
 //# sourceMappingURL=vanilla-ui-router.js.map
