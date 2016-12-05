@@ -120,7 +120,13 @@ var createRouter = function createRouter(domEntryPoint) {
 
 		var domClone = lastDomEntryPoint.cloneNode(true);
 		domEntryPoint.parentElement.insertBefore(domClone, domEntryPoint);
-		domEntryPoint.remove();
+
+		if (typeof domEntryPoint.remove === 'undefined') {
+			domEntryPoint.removeNode(true);
+		} else {
+			domEntryPoint.remove();
+		}
+
 		domEntryPoint = domClone;
 	};
 

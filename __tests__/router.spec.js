@@ -216,4 +216,27 @@ describe('router', () => {
 			});
 		});
 	});
+
+	describe('with IE9', () => {
+		test('no error is thrown, because of the domNode.remove()', () => {
+			const domEntryPointMock = {
+				parentElement: {
+					insertBefore: () => {}
+				},
+				cloneNode: () => domEntryPointMock,
+				removeNode: jest.fn(),
+				remove: undefined
+			};
+
+			const init = () => {
+				const router = createRouter(domEntryPointMock);
+				router
+				.addRoute('', () => {});
+				simulateHashChange('');
+				expect(domEntryPointMock.removeNode.mock.calls.length).toEqual(1);
+			};
+			expect(init).not.toThrow();
+
+		});
+	});
 });

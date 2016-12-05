@@ -29,7 +29,13 @@ export const createRouter = domEntryPoint => {
 
 		const domClone = lastDomEntryPoint.cloneNode(true);
 		domEntryPoint.parentElement.insertBefore(domClone, domEntryPoint);
-		domEntryPoint.remove();
+
+		if (typeof domEntryPoint.remove === 'undefined') {
+			domEntryPoint.removeNode(true);
+		} else {
+			domEntryPoint.remove();
+		}
+
 		domEntryPoint = domClone;
 	};
 
