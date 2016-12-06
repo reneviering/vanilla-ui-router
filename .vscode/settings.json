@@ -1,0 +1,22 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/server": true,
+        "**/dist": true,
+        "**/docs": true,
+        "**/reports": true,
+        "**/coverage": true,
+        "**/node_modules": true,
+        "**/.**": true,
+        "**/LICENSE": true,
+        "**/README.md": true
+
+    },
+    "search.exclude": {
+        "**/libs": true,
+        "**/node_modules": true
+    }
+}
