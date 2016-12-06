@@ -38,5 +38,11 @@
     "rollup-plugin-sourcemaps": "^0.4.1",
     "rollup-plugin-uglify": "^1.0.1",
     "sinon": "^1.17.6"
-  }
+  },
+  "keywords": [
+    "router",
+    "routing",
+    "frontend",
+    "spa"
+  ]
 }
