@@ -101,13 +101,19 @@ router
 	.addRoute('route-with-template-id/:id', {
 		templateId: 'template42'
 	})
-	
+
 	.addRoute('route-with-dispose', {
 		routeHandler: () => {},
 		dispose: () => {
 			// Is called before navigating to another route to do some cleanup if needed.
 		}
 	})
+
+	.addRoute('inject-custom-data', {
+		routeHandler: (domEntryPoint, routeParams, {customData}) => {
+			// It's passed as the last parameter of the route, maybe to pass a redux store.
+		},
+	}, { customData: 'moep'}) // if you need to pass custom data to your routes
 
 	.otherwise(() => {
 		// If no route configuration matches, the otherwise route is invoked.

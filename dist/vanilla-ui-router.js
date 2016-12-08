@@ -108,8 +108,9 @@ var createRouter = function createRouter(domEntryPoint) {
 		routes['*'] = routeHandler;
 	};
 
-	var addRoute = function addRoute(hashUrl, routeHandler) {
+	var addRoute = function addRoute(hashUrl, routeHandler, data) {
 		routes[hashUrl] = routeHandler;
+		routes[hashUrl].data = data;
 		return { addRoute: addRoute, otherwise: otherwise, navigateTo: navigateTo };
 	};
 
@@ -160,12 +161,12 @@ var createRouter = function createRouter(domEntryPoint) {
 		initializeDomElement();
 
 		if (typeof routeHandler === 'function') {
-			routeHandler(domEntryPoint, routeParams);
+			routeHandler(domEntryPoint, routeParams, routeHandler.data);
 		} else {
 
 			renderTemplates(routeHandler, domEntryPoint, function () {
 				if (typeof routeHandler.routeHandler === 'function') {
-					routeHandler.routeHandler(domEntryPoint, routeParams);
+					routeHandler.routeHandler(domEntryPoint, routeParams, routeHandler.data);
 				}
 			});
 		}

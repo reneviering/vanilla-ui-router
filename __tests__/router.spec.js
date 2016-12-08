@@ -217,6 +217,32 @@ describe('router', () => {
 		});
 	});
 
+	describe('Defining some extra data to a route', () => {
+		test('data is passed as last parameter into the simplest routeHandler function', () => {
+			const router = createRouter(domEntryPoint);
+			const spy = jest.fn();
+			const dataToPass = 'data to pass';
+			router
+				.addRoute('', spy, {dataToPass});
+			simulateHashChange('');
+			expect(spy.mock.calls[0][2]).toEqual({dataToPass});
+		});
+
+		test('data is passed as last parameter into routeHandler function of routes with more complex configuration', () => {
+			const router = createRouter(domEntryPoint);
+			const spy = jest.fn();
+			const dataToPass = 'data to pass';
+
+			router
+				.addRoute('', {
+					templateId: 'template42',
+					routeHandler: spy
+				}, {dataToPass});
+			simulateHashChange('');
+			expect(spy.mock.calls[0][2]).toEqual({dataToPass});
+		});
+	});
+
 	describe('with IE9', () => {
 		test('no error is thrown, because of the domNode.remove()', () => {
 			const domEntryPointMock = {

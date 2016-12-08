@@ -17,8 +17,9 @@ export const createRouter = domEntryPoint => {
 		routes['*'] = routeHandler;
 	};
 
-	const addRoute = (hashUrl, routeHandler) => {
+	const addRoute = (hashUrl, routeHandler, data) => {
 		routes[hashUrl] = routeHandler;
+		routes[hashUrl].data = data;
 		return {addRoute, otherwise, navigateTo};
 	};
 
@@ -69,12 +70,12 @@ export const createRouter = domEntryPoint => {
 		initializeDomElement();
 
 		if (typeof routeHandler === 'function') {
-			routeHandler(domEntryPoint, routeParams);
+			routeHandler(domEntryPoint, routeParams, routeHandler.data);
 		} else {
 
 			renderTemplates(routeHandler, domEntryPoint, () => {
 				if (typeof routeHandler.routeHandler === 'function') {
-					routeHandler.routeHandler(domEntryPoint, routeParams);
+					routeHandler.routeHandler(domEntryPoint, routeParams, routeHandler.data);
 				}
 			});
 
