@@ -111,7 +111,7 @@ router
 
 	.addRoute('inject-custom-data', {
 		routeHandler: (domEntryPoint, routeParams, {customData}) => {
-			// It's passed as the last parameter of the route, maybe to pass a redux store.
+			// It's passed as the last parameter of the route, for instance to pass a redux store.
 		},
 	}, { customData: 'moep'}) // if you need to pass custom data to your routes
 
