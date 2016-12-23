@@ -11,6 +11,7 @@
     "core/dataProvider.js",
     "core/routeParams.js",
     "core/templates.js",
+    "core/httpRequestFactory.js",
     "index.js"
   ],
   "scripts": {

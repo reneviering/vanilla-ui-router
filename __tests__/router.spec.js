@@ -1,37 +1,15 @@
 import {createRouter} from '../index.js';
-let hashChangeHandlers = [];
-let loadHandlers = [];
 
 jest.mock('../core/dataProvider.js');
 
-// window mock
-window.addEventListener = (eventName, handler) => {
-	if (eventName === 'hashchange') {
-		hashChangeHandlers.push(handler);
-	}
-
-	if (eventName === 'load') {
-		loadHandlers.push(handler);
-	}
-};
-
-let lastHash;
-
 const simulateHashChange = hash => {
-	if (lastHash !== hash) {
-		window.location.hash = hash;
-		hashChangeHandlers.forEach(handler => handler());
-	}
+	window.location.hash = hash;
+	window.dispatchEvent(new Event('hashchange'));
 };
 
 const simulateLoad = hash => {
 	window.location.hash = hash;
-	loadHandlers.forEach(handler => handler());
-};
-
-const clearHandlers = () => {
-	hashChangeHandlers = [];
-	loadHandlers = [];
+	window.dispatchEvent(new Event('load'));
 };
 
 describe('router', () => {
@@ -44,7 +22,6 @@ describe('router', () => {
 	});
 
 	beforeEach(() => {
-		clearHandlers();
 		domEntryPoint.innerHTML = '';
 	});
 
@@ -141,8 +118,12 @@ describe('router', () => {
 				});
 				simulateLoad('');
 				simulateHashChange('');
-				expect(domEntryPoint.innerHTML).toEqual('<p>I am the default route</p>');
-				expect(spy.mock.calls.length).toBe(2);
+
+				setTimeout(() => {
+					expect(domEntryPoint.innerHTML).toEqual('<p>I am the default route</p>');
+					expect(spy.mock.calls.length).toBe(2);
+				}, 0);
+
 			});
 
 			describe('no routeHandler is defined', () => {
@@ -155,7 +136,9 @@ describe('router', () => {
 						simulateLoad('');
 						simulateHashChange('');
 					};
+
 					expect(init).not.toThrow();
+
 				});
 			});
 		});
@@ -171,8 +154,12 @@ describe('router', () => {
 				});
 				simulateLoad('');
 				simulateHashChange('');
-				expect(domEntryPoint.innerHTML).toEqual(expectedRenderedTemplate);
-				expect(spy.mock.calls.length).toBe(2);
+
+				setTimeout(() => {
+					expect(domEntryPoint.innerHTML).toEqual(expectedRenderedTemplate);
+					expect(spy.mock.calls.length).toBe(2);
+				}, 0);
+
 			});
 		});
 
@@ -192,8 +179,12 @@ describe('router', () => {
 				});
 				simulateLoad('');
 				simulateHashChange('');
-				expect(domEntryPoint.innerHTML).toEqual('<p>Rendered from template.html</p>');
-				expect(spy.mock.calls.length).toBe(2);
+
+				setTimeout(() => {
+					expect(domEntryPoint.innerHTML).toEqual('<p>Rendered from template.html</p>');
+					expect(spy.mock.calls.length).toBe(2);
+				}, 0);
+
 			});
 		});
 
@@ -209,10 +200,18 @@ describe('router', () => {
 						routeHandler: () => {},
 						dispose: spy
 					})
-					.addRoute('home', () => {});
+					.addRoute('home', {
+						routeHandler: () => {},
+						templateString: 'asdfasfasf',
+						dispose: () => {}
+					});
 				simulateHashChange('');
 				simulateHashChange('home');
-				expect(spy.mock.calls.length).toEqual(1);
+
+				setTimeout(() => {
+					expect(spy.mock.calls.length).toEqual(1);
+				}, 0);
+
 			});
 		});
 	});
@@ -225,7 +224,11 @@ describe('router', () => {
 			router
 				.addRoute('', spy, {dataToPass});
 			simulateHashChange('');
-			expect(spy.mock.calls[0][2]).toEqual({dataToPass});
+
+			setTimeout(() => {
+				expect(spy.mock.calls[0][2]).toEqual({dataToPass});
+			}, 0);
+
 		});
 
 		test('data is passed as last parameter into routeHandler function of routes with more complex configuration', () => {
@@ -239,7 +242,11 @@ describe('router', () => {
 					routeHandler: spy
 				}, {dataToPass});
 			simulateHashChange('');
-			expect(spy.mock.calls[0][2]).toEqual({dataToPass});
+
+			setTimeout(() => {
+				expect(spy.mock.calls[0][2]).toEqual({dataToPass});
+			}, 0);
+
 		});
 	});
 
@@ -254,15 +261,15 @@ describe('router', () => {
 				remove: undefined
 			};
 
-			const init = () => {
-				const router = createRouter(domEntryPointMock);
-				router
-				.addRoute('', () => {});
-				simulateHashChange('');
+			const router = createRouter(domEntryPointMock);
+			router
+				.addRoute('', () => {})
+				.addRoute('home', () => {});
+			simulateHashChange('');
+			simulateHashChange('home');
+			setTimeout(() => {
 				expect(domEntryPointMock.removeNode.mock.calls.length).toEqual(1);
-			};
-			expect(init).not.toThrow();
-
+			});
 		});
 	});
 });
