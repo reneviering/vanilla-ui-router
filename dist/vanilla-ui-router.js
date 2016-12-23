@@ -1,8 +1,6 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-	typeof define === 'function' && define.amd ? define(['exports'], factory) :
-	(factory((global.vanillaUIRouter = global.vanillaUIRouter || {})));
-}(this, (function (exports) { 'use strict';
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
 
 var parseRouteParamToCorrectType = function parseRouteParamToCorrectType(paramValue) {
 	if (!isNaN(paramValue)) {
@@ -60,8 +58,10 @@ var findMatchingRouteIdentifier = function findMatchingRouteIdentifier(currentHa
 	})[0];
 };
 
+var XMLHttpRequestFactory = window.XMLHttpRequest;
+
 var loadTemplate = function loadTemplate(templateUrl, successCallback) {
-	var xhr = new XMLHttpRequest();
+	var xhr = new XMLHttpRequestFactory();
 	xhr.onreadystatechange = function () {
 		if (xhr.readyState === 4) {
 			successCallback(xhr.responseText);
@@ -183,8 +183,3 @@ var createRouter = function createRouter(domEntryPoint) {
 };
 
 exports.createRouter = createRouter;
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-})));
-//# sourceMappingURL=vanilla-ui-router.js.map

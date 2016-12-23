@@ -5,14 +5,9 @@
   "homepage": "https://github.com/micromata/vanilla-ui-router",
   "author": "René Viering",
   "repository": "micromata/vanilla-ui-router",
-  "main": "index.js",
+  "main": "dist/vanilla-ui-router.js",
   "files": [
-    "dist",
-    "core/dataProvider.js",
-    "core/routeParams.js",
-    "core/templates.js",
-    "core/httpRequestFactory.js",
-    "index.js"
+    "dist"
   ],
   "scripts": {
     "test": "jest --coverage",

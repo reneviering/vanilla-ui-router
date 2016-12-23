@@ -6,9 +6,9 @@ import sourcemaps from 'rollup-plugin-sourcemaps';
 export default {
 	entry: 'index.js',
 	dest: 'dist/vanilla-ui-router.js',
-	format: 'umd',
+	format: 'cjs',
 	moduleName: 'vanillaUIRouter',
-	sourceMap: true,
+	sourceMap: false,
 	plugins: [
 		resolve({
 			jsnext: true,
