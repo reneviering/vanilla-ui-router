@@ -6,8 +6,10 @@
   "author": "René Viering",
   "repository": "micromata/vanilla-ui-router",
   "main": "dist/vanilla-ui-router.js",
+  "typings": "index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "scripts": {
     "test": "jest --coverage",
