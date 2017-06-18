@@ -1,6 +1,12 @@
 import {createRouter} from '../index.js';
 
 jest.mock('../core/dataProvider.js');
+// Jest.mock('../core/templates.js');
+let lastError;
+
+window.onerror = err => {
+	lastError = err;
+};
 
 const simulateHashChange = hash => {
 	window.location.hash = hash;
@@ -23,6 +29,10 @@ describe('router', () => {
 
 	beforeEach(() => {
 		domEntryPoint.innerHTML = '';
+	});
+
+	afterEach(() => {
+		lastError = undefined;
 	});
 
 	test('invokes registered routes correctly', () => {
@@ -270,6 +280,20 @@ describe('router', () => {
 			setTimeout(() => {
 				expect(domEntryPointMock.removeNode.mock.calls.length).toEqual(1);
 			});
+		});
+	});
+
+	describe('No templates are defined inside route configuration', () => {
+		test('an error is thrown', () => {
+			const router = createRouter(domEntryPoint);
+			router
+				.addRoute('about', {
+					routeHandler: () => {}
+				});
+			simulateLoad('about');
+			simulateHashChange('about');
+			expect(lastError).toEqual('No template configured for route about');
+
 		});
 	});
 });

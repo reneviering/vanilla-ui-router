@@ -73,6 +73,10 @@ export const createRouter = domEntryPoint => {
 			routeHandler(domEntryPoint, routeParams, routeHandler.data);
 		} else {
 
+			if (!routeHandler.templateString && !routeHandler.templateId && !routeHandler.templateUrl) {
+				throw Error(`No template configured for route ${currentHash}`);
+			}
+
 			renderTemplates(routeHandler, domEntryPoint, () => {
 				if (typeof routeHandler.routeHandler === 'function') {
 					routeHandler.routeHandler(domEntryPoint, routeParams, routeHandler.data);
