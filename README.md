@@ -7,6 +7,8 @@
 
 # Vanilla UI Router
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/micromata/vanilla-ui-router.svg)](https://greenkeeper.io/)
+
 > Simple vanilla JavaScript router to be used inside a single page app to add routing capabilities.
 
 The router comes with zero dependencies and can be used with any other libraries. It's based on the [hashchange-Event](https://developer.mozilla.org/docs/Web/API/WindowEventHandlers/onhashchange).
